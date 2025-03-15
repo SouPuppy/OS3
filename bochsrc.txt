@@ -1,0 +1,9 @@
+megs: 32
+romimage: file=/usr/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+
+boot: disk
+ata0-master: type=disk, path="os3.img", mode=flat, cylinders=20, heads=16, spt=32
+
+display_library: x
+
