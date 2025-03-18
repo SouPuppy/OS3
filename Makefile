@@ -16,7 +16,7 @@ build: os3.img
 debug:
 	$(MAKE) clean
 	$(MAKE) build
-	$(BOCHS) -q -f bochsrc.bxrc
+	$(BOCHS) -q -debugger -f bochsrc.bxrc
 
 boot.bin: boot.asm
 	nasm -f bin -o boot.bin boot.asm
