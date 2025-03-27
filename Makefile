@@ -6,25 +6,22 @@ QEMU = qemu-system-x86_64
 BOCHS = bochs
 MAKE = make
 
-.PHONY: all build clean run debug boot
+.PHONY: all build clean run boot
 
 all: run
 
-run: $(BUILD_DIR)/os3.img
-	$(QEMU) -m 32M -drive file=$(BUILD_DIR)/os3.img,format=raw -boot c
+run: os3.img
+	$(QEMU) -m 32M -drive file=os3.img,format=raw -boot c
 
-build: $(BUILD_DIR)/os3.img
-
-debug: clean build
-	$(BOCHS) -q -f bochsrc.bxrc
+build: os3.img
 
 boot:
 	$(MAKE) -C src/boot BUILD_DIR=../../build/boot
 
-$(BUILD_DIR)/os3.img: boot
-	dd if=/dev/zero of=$(BUILD_DIR)/os3.img bs=1M count=5
-	dd if=$(BUILD_DIR)/boot/boot.bin of=$(BUILD_DIR)/os3.img bs=512 count=1 seek=0 conv=notrunc
+os3.img: boot
+	dd if=/dev/zero of=os3.img bs=1M count=5
+	dd if=$(BUILD_DIR)/boot/boot.bin of=os3.img bs=512 count=1 seek=0 conv=notrunc
 
 clean:
 	rm -f $(BUILD_DIR)/boot/*
-	rm -f $(BUILD_DIR)/os3.img
+	rm -f os3.img

@@ -1,24 +1,24 @@
 00000000  B80300            mov ax,0x3
 00000003  CD10              int 0x10
-00000005  BE1A7C            mov si,0x7c1a
-00000008  E80200            call 0xd
+00000005  BE1C7C            mov si,0x7c1c
+00000008  E80400            call 0xf
 0000000B  EBFE              jmp short 0xb
-0000000D  B40E              mov ah,0xe
-0000000F  AC                lodsb
-00000010  3C00              cmp al,0x0
-00000012  7404              jz 0x18
-00000014  CD10              int 0x10
-00000016  EBF7              jmp short 0xf
-00000018  C3                ret
-00000019  F4                hlt
-0000001A  48                dec ax
-0000001B  656C              gs insb
-0000001D  6C                insb
-0000001E  6F                outsw
-0000001F  20576F            and [bx+0x6f],dl
-00000022  726C              jc 0x90
-00000024  640000            add [fs:bx+si],al
-00000027  0000              add [bx+si],al
+0000000D  87DB              xchg bx,bx
+0000000F  B40E              mov ah,0xe
+00000011  AC                lodsb
+00000012  3C00              cmp al,0x0
+00000014  7404              jz 0x1a
+00000016  CD10              int 0x10
+00000018  EBF7              jmp short 0x11
+0000001A  C3                ret
+0000001B  F4                hlt
+0000001C  48                dec ax
+0000001D  656C              gs insb
+0000001F  6C                insb
+00000020  6F                outsw
+00000021  20576F            and [bx+0x6f],dl
+00000024  726C              jc 0x92
+00000026  640000            add [fs:bx+si],al
 00000029  0000              add [bx+si],al
 0000002B  0000              add [bx+si],al
 0000002D  0000              add [bx+si],al

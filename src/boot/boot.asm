@@ -1,28 +1,43 @@
 [ORG 0x7C00]
 
-start:
-  mov ax, 0x03
-  int 0x10
+    mov edi, 0x8000     ; memory address to start
+    mov ecx, 0          ; starting sector number
+    mov bl, 1           ; sectors to read
 
-  mov si, msg
-  call print
-  jmp $
+call read_disk
 
-print:
-  mov ah, 0x0e
-  .nc:
-    lodsb
-    cmp al, 0
-    je .done
-    int 0x10
-    jmp .nc
-  .done:
-    ret
+read_disk:
+    pushad
 
-halt:
-  hlt
+    mov dx, 0x1F2
+    mov al, bl
+    out dx, al
 
-  msg db 'Hello World'
+    ; low 8
+    mov al, cl
+    inc dx              ; 0x1F4
+    out dx, al
 
-  times 510 - ($ - $$) db 0
-  dw 0xAA55
+    ; middle 8
+    shr ecx, 8
+    mov al, cl
+    inc dx              ; 0x1F4
+    out dx, al
+
+    ; high 8
+    shr ecx, 8
+    mov al, cl
+    inc dx              ; 0x1F5
+    out dx, al
+
+    ; high 4
+    shr ecx, 8
+    and cl, 0xF
+    inc dx              ; 0x1F6
+    mov al, 0xE0
+    or al, cl
+    out dx, al
+
+    inc dx
+    mov al, 0x20
+    
